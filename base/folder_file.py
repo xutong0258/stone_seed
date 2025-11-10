@@ -94,6 +94,53 @@ def copy_multiple_files(src_files, dest_dir, overwrite=False):
     logger.info(f"批量复制完成: 成功 {success_count} 个, 失败 {fail_count} 个")
     return (success_count, fail_count)
 
+def clean_file():
+    C1_Time = datetime.datetime.now ()
+    logger.info(f'curreent:{C1_Time}')
+    time_stamp = datetime.datetime.now ().strftime ("%Y-%m-%d %H:%M:%S")
+    logger.info(f'time_stamp:{time_stamp}')
+
+    # current_dir = os.getcwd()
+    for root, dirs, files in os.walk(path_dir):
+        for file in files:
+            if '.mp4' not in file:
+                continue
+            file = os.path.join(root, file)
+
+            c2_Time = os.path.getmtime(file)
+            c2_Time = datetime.datetime.fromtimestamp(c2_Time)
+            delta = C1_Time.__sub__ (c2_Time)
+            logger.info(f'delta.days:{delta.days}')
+            if delta.days > 5:
+                logger.info (f"remove file:{file} delta.days:{delta.days}")
+                cmd = f'sudo rm -rf {file}'
+                cmd_excute(file)
+    return
+
+def change_file_name():
+    dir = r'D:\0_慧务农\发票\bak\11'
+    # /home/yskj/data/sport-ci/conf
+    # dir = r'/home/yskj/data/sport-ci/conf'
+    tmp_list = os.listdir (dir)
+    for item in tmp_list:
+        full_path = os.path.join(dir, item)
+        new_path = full_path.replace('.pdf', '_33.pdf')
+        command = f'mv {full_path} {new_path}'
+        # cmd_excute(command, logger)
+        os.rename(full_path, new_path)
+    return
+
+def replace_file():
+    wait_str = ''
+    target_str = ''
+    current_dir = r'D:\00_stone_project-237\0_17_stress_cases'
+    target_dirs = os.listdir(current_dir)
+    final_list = []
+    for item in target_dirs:
+        path = os.path.join(current_dir, item)
+        command = f"cd {path} && sed -i 's/{wait_str}/{target_str}/g' *.yaml"
+        cmd_excute(command)
+    return
 # 使用示例
 if __name__ == "__main__":
     # 要删除的文件夹路径
