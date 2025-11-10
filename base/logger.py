@@ -109,4 +109,8 @@ def cmd_excute(cmd, logger=None, outfile=None, errfile=None):
 
 
 if __name__ == '__main__':
-    pass
+    cmd = f'tracerpt GfxTrace.etl'
+    result, errors, return_code = cmd_excute(cmd)
+    logger.info(f'result:{result}')
+    logger.info(f'errors:{errors}')
+    logger.info(f'return_code:{return_code}')

@@ -43,6 +43,26 @@ def count_all_subfolders(folder_path):
 
     return total_count
 
+def count_file():
+    work_dir = r'D:\0_rope_skip_VIP\patch'
+    work_dir_list = os.listdir (work_dir)
+    total_file = 0
+    for item in work_dir_list:
+        full_path = os.path.join(work_dir, item)
+        logger.info (f'full_path:{full_path}')
+        if os.path.isfile(full_path):
+            continue
+
+        sub_list = os.listdir (full_path)
+        file_count = len (sub_list)
+
+        logger.info (f'file_count:{file_count}')
+
+        total_file += file_count
+
+    logger.info (f'total_file:{total_file}')
+    return
+
 if __name__ == "__main__":
     # # 设置命令行参数
     # parser = argparse.ArgumentParser(description='统计文件夹下所有层级的子文件夹数量（包括嵌套文件夹）')
