@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 
 import time
 from base.util import *
+from base.logger import *
 
 
 def open_webpage(url):
@@ -18,6 +19,8 @@ def open_webpage(url):
         # 打开指定网页
         driver.get(url)
         logger.info(f"成功打开网页: {url}")
+
+        time.sleep(10)
 
         # 找到用户名和密码的输入框
         username_box = driver.find_elements(By.ID, "username")  # 假设用户名输入框的ID是'username'
@@ -80,5 +83,5 @@ def open_webpage(url):
 
 if __name__ == "__main__":
     # 要打开的网页URL
-    target_url = "https://routinecloud.sciento.cn/login"  # 可以替换为任何想要打开的网页
+    target_url = "https://chat.qwen.ai/"  # 可以替换为任何想要打开的网页
     open_webpage(target_url)
