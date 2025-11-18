@@ -4,13 +4,16 @@
 # @File     : logger_util.py
 # @Description:
 
+import os
 import sys
 from pathlib import Path
 from typing import Literal
-
 from loguru import logger
 
 # 基于 Loguru 的日志配置模块, 支持简单验证和单例模式
+
+# file = os.path.abspath(__file__)
+path_dir = os.path.dirname(__file__)
 
 VALID_LEVELS = {"TRACE", "DEBUG", "INFO", "SUCCESS", "WARNING", "ERROR", "CRITICAL"}
 
