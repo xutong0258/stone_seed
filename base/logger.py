@@ -8,12 +8,14 @@ import logging
 import time
 import datetime
 import re
-
+import subprocess
 
 # file = os.path.abspath(__file__)
 path_dir = os.path.dirname(__file__)
 
-LOG_DIR = os.path.join(path_dir, f"../../auto_test_log")
+split_list = path_dir.split('\\')
+
+LOG_DIR = os.path.join(split_list[0], f"\\auto_test_log")
 # print(f'LOG_DIR:{LOG_DIR}')
 
 if not os.path.exists(LOG_DIR):
@@ -64,8 +66,8 @@ def init_logger(loggername, file=None):
     return logger
 
 print(f'log_file:{log_file}')
-logger = init_logger('HELLO', log_file)
-logger.info('hello')
+logger = init_logger(__file__, log_file)
+# logger.info('hello')
 
 # os.system
 def cmd_excute(cmd, logger=None, outfile=None, errfile=None):
@@ -76,7 +78,7 @@ def cmd_excute(cmd, logger=None, outfile=None, errfile=None):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE)
         stdout, stderr = process.communicate()
-        print(stdout.decode())
+        # print(stdout.decode())
         # result = stdout.decode('utf-8').strip('\r\n')
         result = stdout
         errors = stderr
@@ -104,12 +106,10 @@ def cmd_excute(cmd, logger=None, outfile=None, errfile=None):
             logger.debug(return_code)
         if return_code != 0:
             logger.error(errors)
-
         return return_code
 
-
 if __name__ == '__main__':
-    cmd = f'tracerpt GfxTrace.etl'
+    cmd = f'echo "hello world"'
     result, errors, return_code = cmd_excute(cmd)
     logger.info(f'result:{result}')
     logger.info(f'errors:{errors}')

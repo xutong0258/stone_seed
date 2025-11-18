@@ -3,7 +3,6 @@
 import yaml
 import json
 import os
-import platform
 from base.logger import *
 
 def get_case_data_list(file_name: str) -> list:
