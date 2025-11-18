@@ -1,9 +1,6 @@
 # coding=utf-8
 import os
 import sys
-import re
-import platform
-import datetime
 
 file_path = os.path.abspath(__file__)
 path_dir = os.path.dirname(file_path)
@@ -14,9 +11,7 @@ sys.path.append(path_dir)
 
 windbgx_path = r"C:\Users\15319\AppData\Local\Microsoft\WindowsApps\WinDbgX.exe"
 kdX86_path = r"C:\Users\15319\AppData\Local\Microsoft\WindowsApps\kdX86.exe"
-# SYMBOL_PATH = "srv*%temp%\\SymCache*http://msdl.microsoft.com/download/symbols"
 SYMBOL_PATH = "SRV*C:\Symbols*http://msdl.microsoft.com/download/symbols"
-
 
 command_sleep_map = {
     'analyze': 10,
