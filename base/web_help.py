@@ -8,7 +8,7 @@ import pandas as pd
 from logger import *
 from bs4 import BeautifulSoup
 import csv
-# from base.logger import *
+# from utils.logger_util import *
 from base.helper import *
 
 def parse_html_table(html_file):

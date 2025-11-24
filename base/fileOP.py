@@ -3,7 +3,7 @@
 import yaml
 import json
 import os
-from base.logger import *
+from utils.logger_util import *
 
 def get_case_data_list(file_name: str) -> list:
     """
@@ -26,7 +26,7 @@ def read_file_dict(file_name: str) -> dict:
         with open (file_name, 'r') as wf:
             record_dic = json.load (wf)
     else:
-        # my_log.info(f'file not support:{read_file_dict}')
+        # logger.info(f'file not support:{read_file_dict}')
         pass
     return record_dic
 
@@ -56,7 +56,7 @@ def read_file_str(file_name):
     with open(file_name, 'r', encoding='gbk') as file:
         # 读取文件的全部内容
         content = file.read()
-        # my_log.info(content)
+        # logger.info(content)
     return content
 
 def wrtie_file(file_name, content) -> None:

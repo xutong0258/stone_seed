@@ -17,16 +17,11 @@ file_path = os.path.abspath(__file__)
 path_dir = os.path.dirname(file_path)
 base_name = os.path.basename(path_dir)
 
-while 'se-autotest' not in base_name:
-    path_dir = os.path.dirname(path_dir)
-    base_name = os.path.basename(path_dir)
-
 sys.path.append(path_dir)
 
 import fileOP
-from util import *
 from common.contants import *
-from component.ai_sport import *
+
 
 root_dir = os.path.dirname(path_dir)
 file = os.path.join(root_dir, 'ws_cfg.yaml')

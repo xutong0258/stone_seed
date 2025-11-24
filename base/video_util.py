@@ -143,13 +143,13 @@ def rope_cfg_check():
     file = '2560p.json'
     full_file = os.path.join (dir, file)
     hello_dict = fileOP.read_file_dict (full_file)
-    # my_log.info(f'hello_dict:{hello_dict}')
+    # logger.info(f'hello_dict:{hello_dict}')
     item_list = ['']
     point_dict = {}
     for item in range (0, 10):
         diction_key = f'Location{item}'
         diction_tmp = hello_dict[diction_key]
-        my_log.info (f'diction_tmp:{diction_tmp}')
+        logger.info (f'diction_tmp:{diction_tmp}')
         ReadyPt1_x = diction_tmp.get('ReadyPt1_x', 0)
         ReadyPt1_y = diction_tmp.get ('ReadyPt1_y', 0)
         point = (ReadyPt1_x, ReadyPt1_y)

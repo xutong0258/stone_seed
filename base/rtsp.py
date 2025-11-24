@@ -120,8 +120,8 @@ class Ffmpeg:
         return
 
     def start(self):
-        my_log.info("播放视频的地址video_path：{}".format(self.video_path))
-        my_log.info("rtsp服务的地址：{}".format(self.rtsp_url))
+        logger.info("播放视频的地址video_path：{}".format(self.video_path))
+        logger.info("rtsp服务的地址：{}".format(self.rtsp_url))
         # command = f'ffmpeg -re -stream_loop -1 -i {self.video_path}
         # -c copy -f rtsp -rtsp_transport tcp {self.rtsp_url}'
         command = f'ffmpeg -re '
@@ -131,7 +131,7 @@ class Ffmpeg:
         # command = command + f' -c copy -an -f rtsp -rtsp_transport tcp {self.rtsp_url}'
         # -codec copy -tune:v zerolatency -an -f rtsp -rtsp_transport tcp
         command = command + f' -r 25 -codec copy -tune:v zerolatency -an -f rtsp -rtsp_transport tcp {self.rtsp_url}'
-        my_log.info("执行command的命令：{}".format(command))
+        logger.info("执行command的命令：{}".format(command))
         self.process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
         return
 

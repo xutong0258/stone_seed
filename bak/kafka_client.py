@@ -1,13 +1,13 @@
 # coding=utf-8
 
 from kafka import KafkaProducer, KafkaConsumer
-from mylogger import *
+from utils.logger_util import *
 
 """定义一个KafkaClient类，封装生产者和消费者的功能"""
 
 
 class KafkaClient:
-    my_log.info("定义一个KafkaClient类，封装生产者和消费者的功能")
+    logger.info("定义一个KafkaClient类，封装生产者和消费者的功能")
 
     # 初始化方法，接收kafka服务器地址和端口作为一个参数，以及主题作为另一个参数
     def __init__(self, bootstrap_server, topic):
@@ -35,18 +35,18 @@ class KafkaClient:
             for record in records:
                 msg = record.value.decode("utf8")
                 if enable_print:
-                   my_log.info(f"kafka返回: offset {record.offset} msg {msg}")
+                   logger.info(f"kafka返回: offset {record.offset} msg {msg}")
                 msgs.append(msg)
         self.consumer.commit()
 
         return msgs
 
     def close(self):
-        # my_log.info("关闭kafka的生产者对象")
+        # logger.info("关闭kafka的生产者对象")
         if self.producer:
             self.producer.close()
 
-        # my_log.info("关闭kafka的消费者对象")
+        # logger.info("关闭kafka的消费者对象")
         if self.consumer:
             self.consumer.commit()
             self.consumer.close()

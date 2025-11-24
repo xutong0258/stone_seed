@@ -12,7 +12,7 @@ import cv2
 import subprocess
 import pandas as pd
 import numpy as np
-from base.logger import *
+from utils.logger_util import *
 import difflib
 
 # file = os.path.abspath(__file__)
