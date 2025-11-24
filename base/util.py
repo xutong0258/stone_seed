@@ -8,8 +8,6 @@ import logging
 import time
 import datetime
 import re
-from base import fileOP
-import cv2
 import subprocess
 
 # file = os.path.abspath(__file__)
