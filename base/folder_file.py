@@ -37,6 +37,7 @@ def delete_folder(folder_path):
         logger.info(f"错误: 没有权限删除 '{folder_path}'")
     except Exception as e:
         logger.info(f"删除文件夹时发生错误: {str(e)}")
+    return
 
 def create_folder(folder_path):
     try:

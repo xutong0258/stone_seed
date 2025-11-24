@@ -1,0 +1,25 @@
+'01_BSOD':
+    'PATH': 'C:\Windows'
+
+'02_performance':
+    'Intel':
+      'PATH_PASS': 'D:\Performance\test_data\0_intelcpu_case\CPU_case-环温sensor_rule15\pass'
+      'PATH_FAIL': 'D:\Performance\test_data\0_intelcpu_case\CPU_case-环温sensor_rule15\fail'
+    'AMD':
+      'PATH_PASS': 'D:\Performance\test_data\0_AMD\rule1——CinebenchR20跑分低-拉prochot温度有顶到\pass - 副本'
+      'PATH_FAIL': 'D:\Performance\test_data\0_AMD\rule1——CinebenchR20跑分低-拉prochot温度有顶到\fail - 副本'
+    'GPU':
+      'PATH_PASS': 'D:\Performance\test_data\0_GPU_case\GPU_Dnotify_rule10_OK\pass'
+      'PATH_FAIL': 'D:\Performance\test_data\0_GPU_case\GPU_Dnotify_rule10_OK\fail'
+
+'04_异常关机重启唤不醒':
+    'PATH': 'C:\Windows'
+
+'05_SW_Hung':
+    'PATH': 'C:\Windows'
+
+'06_HW Hung':
+    'PATH': 'C:\XXXX'
+
+'06_HW Hung':
+    'PATH': 'C:\XXXX'

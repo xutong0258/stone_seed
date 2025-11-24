@@ -4,10 +4,9 @@ import sys
 
 file_path = os.path.abspath(__file__)
 path_dir = os.path.dirname(file_path)
-base_name = os.path.basename(path_dir)
 
-sys.path.append(path_dir)
 
+CONFIG_PATH = os.path.join(path_dir, '../config')
 
 windbgx_path = r"C:\Users\15319\AppData\Local\Microsoft\WindowsApps\WinDbgX.exe"
 kdX86_path = r"C:\Users\15319\AppData\Local\Microsoft\WindowsApps\kdX86.exe"
