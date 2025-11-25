@@ -14,20 +14,16 @@ import subprocess
 path_dir = os.path.dirname(__file__)
 
 
-def split_list(lst, num):
-    length = len(lst)
-    part_length = length // num  # 计算每一部分的长度
-    remainder = length % num  # 计算余数
-    parts = []
-    start = 0
-    for i in range(num):
-        if i < remainder:  # 对于余数部分，将长度加 1
-            end = start + part_length + 1
-        else:
-            end = start + part_length
-        parts.append(lst[start:end])  # 截取列表的一部分添加到结果中
-        start = end
-    return parts
+def is_digital_item(cell_item):
+    number_list = ['0','1','2','3','4','5','6','7','8','9']
+    is_number = True
+    for item in cell_item:
+        # logger.info(f"item:{item}")
+        if item not in number_list:
+            is_number = False
+            break
+    # logger.info(f"is_number:{is_number}")
+    return is_number
 
 if __name__ == '__main__':
     pass
