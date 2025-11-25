@@ -1,7 +1,5 @@
 import os
-import shutil
 import sys
-import logging
 import time
 import datetime
 import re

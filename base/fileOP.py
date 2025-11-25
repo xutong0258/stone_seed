@@ -61,7 +61,7 @@ def read_file_str(file_name):
 
 def wrtie_file(file_name, content) -> None:
     # 打开文件，如果文件不存在，会创建文件；'a' 表示追加模式，如果文件已存在，则会在文件末尾追加内容
-    with open (file_name, 'w') as file:
+    with open (file_name, 'w', encoding='utf-8') as file:
         # 追加文本数据
         file.write(content)
     return
@@ -105,6 +105,18 @@ def get_file_content_list_remove_empty_line(file_path):
                 # logger.info(f"removed_line:")
 
     # logger.info(f"log_lines:{log_lines}")
+    return log_lines
+
+def get_file_content_list(file_path):
+    log_lines = []
+    try:
+        # 以只读模式打开文件并读取所有内容
+        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+            log_lines = f.readlines()  # 列表形式存储每一行日志，保留换行符
+    except FileNotFoundError:
+        logger.info(f"未找到文件: {file_path}")
+    except Exception as e:
+        logger.info(f"发生错误: {e}")
     return log_lines
 
 if __name__ == '__main__':
