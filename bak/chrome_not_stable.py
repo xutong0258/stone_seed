@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 
 import time
 from base.util import *
-from utils.logger_util import *
+from utils.logger_util import logger
 
 
 def open_webpage(url):

@@ -1,6 +1,6 @@
 import csv
 import os
-from base.helper import *
+from utils.logger_util import logger
 
 
 def read_data_with_csv(file_path):

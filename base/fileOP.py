@@ -3,7 +3,7 @@
 import yaml
 import json
 import os
-from utils.logger_util import *
+from utils.logger_util import logger
 
 def get_case_data_list(file_name: str) -> list:
     """
@@ -16,14 +16,14 @@ def get_case_data_list(file_name: str) -> list:
     data_list = [line.strip() for line in data_list]
     return data_list
 
-
-def read_file_dict(file_name: str) -> dict:
+# utf-8
+def read_file_dict(file_name: str, encoding='utf-8') -> dict:
     record_dic = {}
     if '.yaml' in file_name:
-        with open(file_name, 'r', encoding='utf-8') as wf:
+        with open(file_name, 'r', encoding=encoding) as wf:
             record_dic = yaml.safe_load(wf)
     elif '.json' in file_name:
-        with open (file_name, 'r') as wf:
+        with open (file_name, 'r', encoding=encoding) as wf:
             record_dic = json.load (wf)
     else:
         # logger.info(f'file not support:{read_file_dict}')
@@ -120,12 +120,8 @@ def get_file_content_list(file_path):
     return log_lines
 
 if __name__ == '__main__':
-    current_enable = True
-    if current_enable:
-        data_dict = {}
-        data_dict['b'] = 'b'
-        data_dict['a'] = 'a'
-        file = r'D:/hello.yaml'
-        dump_file(file, data_dict)
-    else:
-        pass
+    file = r'D:/intel_graph.json'
+    record_dic = read_file_dict(file)
+
+    file = r'D:/hello.yaml'
+    dump_file(file, record_dic)

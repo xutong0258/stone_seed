@@ -1,6 +1,6 @@
 from datetime import datetime
 from zoneinfo import ZoneInfo # 注意导入方式
-from utils.logger_util import *
+from utils.logger_util import logger
 
 def get_timestamp(time_str = "2025/8/6 8:29:02"):
     # 1. 定义原始时间字符串和它的格式

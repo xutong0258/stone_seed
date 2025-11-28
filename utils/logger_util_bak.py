@@ -22,7 +22,7 @@ _logger_configured = False
 # "<cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - "
 # "<level>{level: <5}</level> | "
 def setup_logger(
-    log_dir= None,
+    log_dir: str | None = None,
     log_format: str = (
         "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | "        
         "<cyan>{file}</cyan>:<cyan>{line}</cyan> - "
@@ -111,7 +111,7 @@ def setup_logger(
     return logger
 
 
-logger = setup_logger("./logs", level="INFO")
+logging = setup_logger("./logs", level="INFO")
 
 if __name__ == '__main__':
     logger.info("=" * 60)

@@ -3,7 +3,7 @@
 import yaml
 import json
 import os
-from utils.logger_util import *
+from utils.logger_util import logger
 
 
 def get_list_text_line_last_index(input_list, text):

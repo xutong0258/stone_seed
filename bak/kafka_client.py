@@ -1,7 +1,7 @@
 # coding=utf-8
 
 from kafka import KafkaProducer, KafkaConsumer
-from utils.logger_util import *
+from utils.logger_util import logger
 
 """定义一个KafkaClient类，封装生产者和消费者的功能"""
 

@@ -1,15 +1,16 @@
+import re
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
-import pandas as pd
-from logger import *
 from bs4 import BeautifulSoup
-import csv
-# from utils.logger_util import *
-from base.helper import *
+
+from utils.logger_util import logger
+from base.folder_file import get_latest_file_path_by_dir
+from base.date_time_help import get_timestamp
+
 
 def parse_html_table(html_file):
     # 读取HTML文件内容
@@ -42,6 +43,7 @@ def parse_html_table(html_file):
 
     return
 
+
 def parse_dynamic_table(html_path):
     logger.info(f'parse_dynamic_table')
     # 初始化浏览器驱动（使用Chrome为例）
@@ -51,30 +53,32 @@ def parse_dynamic_table(html_path):
     try:
         # 加载本地HTML文件（如果是在线网页，替换为URL即可）
         driver.get(f"file:///{html_path}")
-        
+
         # 等待页面关键元素加载完成（根据网页中的表格ID调整）
         # 示例：等待summary-table表格加载
         WebDriverWait(driver, 15).until(
             EC.presence_of_element_located((By.ID, "summary-table"))
         )
-        logger.info(f'WebDriverWait')
+        logger.info(f'WebDriverWait end')
         # 存储所有表格数据的列表
         all_tables = []
-        
+
         # 获取页面中所有表格（可根据需要筛选特定表格）
         tables = driver.find_elements(By.TAG_NAME, "table")
-        
+
         for table in tables:
             # 提取表格ID（用于标识表格）
             table_id = table.get_attribute("id") or f"table_{len(all_tables)}"
-            
+
+            logger.info(f'table_id:{table_id}')
+
             # 提取表头
             headers = []
             th_elements = table.find_elements(By.TAG_NAME, "th")
             # logger.info(f'th_elements:{th_elements}')
             for th in th_elements:
                 headers.append(th.text.strip())
-            
+
             # 提取表格内容
             rows = []
             tr_elements = table.find_elements(By.TAG_NAME, "tr")
@@ -83,26 +87,27 @@ def parse_dynamic_table(html_path):
                 row = [td.text.strip() for td in tds]
                 if row:  # 跳过空行
                     rows.append(row)
-            
+
             # 存储表格数据（ID、表头、内容）
             all_tables.append({
                 "table_id": table_id,
                 "headers": headers,
                 "data": rows
             })
-        
+
         return all_tables
-    
+
     finally:
         # 关闭浏览器
         driver.quit()
+
 
 def get_Abnormal_Shutdown_time(folder_path):
     # logger.info(f'target_list:{target_list}')
     # logger.info(f'row:{row}')
 
     target_file = 'SystemPowerReport.html'
-    file_path = get_file_path_by_dir(folder_path, target_file)
+    file_path = get_latest_file_path_by_dir(folder_path, target_file)
     logger.info(f'file_path:{file_path}')
 
     # 解析表格
@@ -114,19 +119,20 @@ def get_Abnormal_Shutdown_time(folder_path):
     target_time = None
     for table in tables_data:
         if target_str in table['headers'] and 'Abnormal Shutdown' in table['data'][0]:
-            target_elem =table['data'][0]
+            target_elem = table['data'][0]
             target_time = target_elem[1]
             logger.info(f'target_elem:{target_elem}')
             logger.info(f'target_time:{target_time}')
 
     return target_time
 
+
 def Critical_Event_Check(folder_path):
     # logger.info(f'target_list:{target_list}')
     # logger.info(f'row:{row}')
 
     target_file = 'KernelPowerReport.html'
-    file_path = get_file_path_by_dir(folder_path, target_file)
+    file_path = get_latest_file_path_by_dir(folder_path, target_file)
     logger.info(f'file_path:{file_path}')
 
     # 解析表格
@@ -139,7 +145,7 @@ def Critical_Event_Check(folder_path):
     match_check = False
     for table in tables_data:
         if target_str in table['headers'] and 'Critical' in table['data'][0] and '41' in table['data'][0]:
-            target_list =table['data'][0]
+            target_list = table['data'][0]
             logger.info(f'target_list:{target_list}')
             for item in target_list:
                 if 'BugcheckCode:0x0' in item:
@@ -149,20 +155,69 @@ def Critical_Event_Check(folder_path):
     logger.info(f'match_check:{match_check}')
     return match_check
 
+
+def get_wakeup_reason(folder_path):
+    # logger.info(f'target_list:{target_list}')
+    # logger.info(f'row:{row}')
+
+    target_file = 'KernelPowerReport.html'
+    file_path = get_latest_file_path_by_dir(folder_path, target_file)
+    logger.info(f'file_path:{file_path}')
+
+    # 解析表格
+    tables_data = parse_dynamic_table(file_path)
+
+    target_str = 'TimeCreated'
+    target_table = None
+    target_time = None
+    wakeup_reason_dict = {}
+    total_dict = {}
+    for table in tables_data:
+        # logger.info(f'table:{table}')
+        if target_str in table['headers']:
+            target_list = table['data']
+            for item in target_list:
+                # logger.info(f'item:{item}')
+                if '1' in item[1] and '唤醒源' in item[4]:
+                    cell_dict = {}
+                    cell_dict['Id'] = item[1]
+                    cell_dict['ProviderName'] = item[3]
+                    cell_dict['Message'] = item[4]
+
+                    total_dict[item[0]] = cell_dict
+
+                    wakeup_time = item[0]
+                    logger.info(f'wakeup_time:{wakeup_time}')
+                    wakeup_time = get_timestamp(wakeup_time)
+                    logger.info(f'wakeup_time:{wakeup_time}')
+
+                    wakeup_reason = item[4]
+                    match = re.search(r'唤醒源:(.*)\n', wakeup_reason)
+                    if match:
+                        wakeup_reason = match.group().strip()
+                        # wakeup_reason = wakeup_reason.replace('唤醒源:', '')
+                    else:
+                        logger.info("未找到wakeup_reason")
+                    wakeup_reason_dict[f'{wakeup_reason}'] = wakeup_time
+
+    logger.info(f'wakeup_reason_dict:{wakeup_reason_dict}')
+
+    max_time = 0
+    latest_reason = None
+    for key, value in wakeup_reason_dict.items():
+        if float(value) > max_time:
+            max_time = value
+            latest_reason = key
+
+    result_dict = {}
+    result_dict['detect_wakeup_reason'] = latest_reason
+    for key, value in total_dict.items():
+        result_dict[key] = value
+
+    # logger.info(f'latest_reason:{latest_reason}')
+
+    return result_dict, latest_reason
+
+
 if __name__ == "__main__":
-    folder_path = r'D:\hello'
-    get_Critical_Event_time(folder_path)
-
-    # # 替换为你的HTML文件路径
-    # html_file_path = r"D:\SystemPowerReport.html"  # 例如：C:/reports/SystemPowerReport.html
-
-
-    
-
-        # print(f"表格ID: {table['table_id']}")
-        # print("表头:", table['headers'])
-        # print("内容行数:", len(table['data']))
-        # print(table['data'])
-        # print("示例数据:", table['data'][0] if table['data'] else "无数据")
-        # print("-" * 50)
-    # logger.info(f'target_elem:{target_elem}')
+    pass

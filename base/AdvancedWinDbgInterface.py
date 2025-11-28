@@ -3,7 +3,7 @@ import threading
 import time
 import queue
 import re
-from base.helper import *
+from utils.logger_util import logger
 from base.contants import *
 
 class AdvancedWinDbgInterface:

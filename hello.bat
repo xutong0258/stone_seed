@@ -1,0 +1,1 @@
+python hello_bash.py "C:\Users\15319\Desktop\02_Pefromance\case\case\0_intelcpu_case_1112\cpu_PL1_rule13"

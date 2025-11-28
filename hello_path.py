@@ -1,5 +1,5 @@
 from pathlib import Path
-from utils.logger_util import *
+from utils.logger_util import logger
 
 # 当前工作目录
 p = Path('.')
