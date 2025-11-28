@@ -41,7 +41,7 @@ current_enable = False
 
 if current_enable:
     LOG = logging.getLogger(__file__)
-    LOG.setLevel (logging.DEBUG)
+    LOG.setLevel(logging.DEBUG)
     LOG.addHandler (CH)
 
 _format =('[%(asctime)s][%(filename)s][%(funcName)s][%(lineno)s]'
@@ -52,17 +52,20 @@ _format =('[%(asctime)s][%(filename)s][%(funcName)s][%(lineno)s]'
 def init_logger(loggername, file=None):
     logger = logging.getLogger(loggername)
     logger.setLevel(level=logging.DEBUG)
+    logger.addHandler(CH)
+
     if not logger.handlers and file:
         file_handler = logging.FileHandler(file, encoding="utf8")
         file_format = logging.Formatter(_format)
         file_handler.setFormatter(file_format)
         file_handler.setLevel(logging.DEBUG)
         logger.addHandler(file_handler)
-        logger.addHandler(CH)
     return logger
 
-print(f'log_file:{log_file}')
-logger = init_logger(__file__, log_file)
+# print(f'log_file:{log_file}')
+
+# logger = init_logger(__file__, log_file)
+logger = init_logger(__file__)
 # logger.info('hello')
 
 
